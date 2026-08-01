@@ -1,7 +1,31 @@
 aid: storyclash
 name: Storyclash
-description: Storyclash is a company surfaced as a portfolio company of speedinvest and added to the API
-  Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Storyclash is an AI-powered influencer marketing software platform used by
+  brands and agencies to discover creators, analyze brand and competitor
+  strategies, manage collaborations in a purpose-built CRM, and measure campaign
+  performance and revenue ROI across Instagram, TikTok, YouTube, and Facebook.
+  Its AI-driven creator discovery includes neural visual search over 120M+
+  creators, letting teams match on a reference image or product URL rather than
+  keywords alone. Storyclash exposes an enterprise REST API with token-based
+  authentication and real-time webhooks that streams campaign KPIs (50+ metrics
+  per campaign), creator profiles, content performance, and revenue attribution
+  as structured JSON into BI tools such as Power BI, Tableau, and Looker Studio.
+  The company, headquartered in Linz, Austria, was surfaced as a portfolio
+  company of Speedinvest and has since been acquired by Kolsquare.
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://www.storyclash.com/favicon.ico
 url: https://raw.githubusercontent.com/api-evangelist/storyclash/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,12 +35,79 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
-apis: []
+- Influencer Marketing
+- Creator Economy
+- Social Media Analytics
+- Marketing Analytics
+- Campaign Management
+- Business Intelligence
+- REST API
+- Webhooks
+apis:
+- name: Storyclash API
+  description: >-
+    Enterprise REST API for the Storyclash influencer marketing platform.
+    Token-based authentication over HTTPS returning structured JSON, with
+    real-time webhooks for campaign updates and creator import status. Endpoints
+    cover campaign data (50+ KPIs, creator profiles, content performance, revenue
+    attribution) and bulk creator import with intelligent rate limiting. Built to
+    feed BI tools (Power BI, Tableau, Looker Studio).
+  humanURL: https://www.storyclash.com/integrations/api-integration
+  baseURL: https://api.storyclash.com
+  tags:
+  - Influencer Marketing
+  - Analytics
+  - Webhooks
+  properties:
+  - type: Documentation
+    url: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+  - type: Authentication
+    url: authentication/storyclash-authentication.yml
+  - type: Webhooks
+    url: asyncapi/storyclash-webhooks.yml
+  - type: Conventions
+    url: conventions/storyclash-conventions.yml
+common:
+- type: DeveloperPortal
+  url: https://www.storyclash.com/integrations/api-integration
+- type: Documentation
+  url: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+- type: Pricing
+  url: https://www.storyclash.com/pricing
+- type: Blog
+  url: https://www.storyclash.com/blog/en
+- type: Login
+  url: https://app.storyclash.com/login
+- type: Support
+  url: https://help.storyclash.com/
+- type: PrivacyPolicy
+  url: https://www.storyclash.com/privacy
+- type: TermsOfService
+  url: https://www.storyclash.com/terms
+- type: StatusPage
+  url: https://status.storyclash.com/
+- type: Lifecycle
+  url: lifecycle/storyclash-lifecycle.yml
+- type: LLMsTxt
+  url: llms/storyclash-llms.txt
+- type: Webhooks
+  url: asyncapi/storyclash-webhooks.yml
+- type: Authentication
+  url: authentication/storyclash-authentication.yml
+- type: Conventions
+  url: conventions/storyclash-conventions.yml
+- type: DomainSecurity
+  url: security/storyclash-domain-security.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 7
+  pass: local-v1

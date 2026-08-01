@@ -1,0 +1,28 @@
+generated: '2026-07-21'
+method: searched
+source: https://www.storyclash.com/integrations/api-integration
+type: Webhooks
+docs: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+summary: >-
+  Storyclash documents real-time webhooks as part of its enterprise REST API.
+  Webhook callbacks deliver instant notifications when campaigns update and report
+  the result of bulk creator-import operations, so consumers do not have to poll or
+  wait for batch exports. No published AsyncAPI document exists; this catalog captures
+  the webhook surface as described in the provider's API documentation.
+transport: http
+delivery: outbound HTTP POST callback to a consumer-registered URL
+webhooks:
+- name: campaign.updated
+  description: >-
+    Fired when a campaign's data changes, signaling that refreshed KPIs, creator
+    profiles, content performance, or revenue attribution are available to pull.
+  category: campaign
+- name: creator.import.status
+  description: >-
+    Callback reporting the outcome of a bulk creator-import operation, indicating
+    exactly what happened for each creator processed (imported, skipped, or failed).
+  category: creator-import
+notes: >-
+  Event names above are descriptive of the documented behaviors (campaign update
+  notifications and creator-import status callbacks); the provider does not publish a
+  formal event-type registry. No fabricated payload schemas are included.

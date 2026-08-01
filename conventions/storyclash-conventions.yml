@@ -1,0 +1,42 @@
+generated: '2026-07-21'
+method: searched
+source: https://www.storyclash.com/integrations/api-integration
+docs: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+summary: >-
+  Cross-cutting request/response semantics for the Storyclash enterprise REST API,
+  captured from the public API integration page and Notion API documentation. No
+  OpenAPI is published, so these conventions are documented behaviors rather than
+  spec-derived.
+authentication:
+  style: token
+  transport: HTTPS
+  detail: Per-customer API token sent in a request header. See authentication/storyclash-authentication.yml
+transport:
+  protocol: HTTPS
+  format: JSON
+  detail: All endpoints return structured JSON responses with 50+ KPIs and metadata.
+rate_limiting:
+  documented: true
+  default: 1 request/hour per campaign
+  adjustable: true
+  detail: >-
+    Configurable/intelligent rate limiting; default of 1 request/hour per campaign is
+    adjustable for enterprise plans. Bulk creator import supports hundreds of creators
+    at once with rate-limit-aware processing. Capacity of 250,000+ posts per customer.
+webhooks:
+  supported: true
+  detail: Real-time outbound webhook callbacks for campaign updates and creator-import status. See asyncapi/storyclash-webhooks.yml
+idempotency:
+  documented: false
+  detail: No idempotency-key contract is documented by the provider.
+pagination:
+  documented: false
+  detail: No explicit pagination scheme is documented on the public surface.
+error_handling:
+  detail: >-
+    Documentation states endpoints return structured JSON with comprehensive error
+    handling; no formal error-code registry is published.
+cross_links:
+  authentication: authentication/storyclash-authentication.yml
+  webhooks: asyncapi/storyclash-webhooks.yml
+  lifecycle: lifecycle/storyclash-lifecycle.yml

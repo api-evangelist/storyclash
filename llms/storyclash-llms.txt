@@ -1,0 +1,32 @@
+# Storyclash
+
+> Storyclash is an AI-powered influencer marketing software platform for brands and agencies to discover creators, analyze brand and competitor strategies, manage collaborations in a purpose-built CRM, and measure campaign performance and revenue ROI across Instagram, TikTok, YouTube, and Facebook. It exposes an enterprise REST API with token-based authentication and real-time webhooks that streams campaign KPIs, creator profiles, content performance, and revenue attribution as structured JSON into BI tools (Power BI, Tableau, Looker Studio). Headquartered in Linz, Austria; a Speedinvest portfolio company, since acquired by Kolsquare.
+
+## APIs
+
+- [Storyclash API](https://www.storyclash.com/integrations/api-integration): Enterprise REST API — token auth over HTTPS, structured JSON, real-time webhooks; campaign data (50+ KPIs) and bulk creator import. Base URL https://api.storyclash.com
+- [API Documentation (Notion)](https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01): Endpoint specifications, JSON response examples, and integration guide.
+
+## Docs
+
+- [Authentication](https://raw.githubusercontent.com/api-evangelist/storyclash/refs/heads/main/authentication/storyclash-authentication.yml): Token-based (apiKey in header).
+- [Webhooks](https://raw.githubusercontent.com/api-evangelist/storyclash/refs/heads/main/asyncapi/storyclash-webhooks.yml): campaign.updated and creator.import.status callbacks.
+- [Conventions](https://raw.githubusercontent.com/api-evangelist/storyclash/refs/heads/main/conventions/storyclash-conventions.yml): auth, rate limiting, JSON transport, webhooks.
+- [Lifecycle](https://raw.githubusercontent.com/api-evangelist/storyclash/refs/heads/main/lifecycle/storyclash-lifecycle.yml): status page (Uptime.com).
+
+## Product
+
+- [Influencer Discovery](https://www.storyclash.com/influencer-discovery)
+- [Brand Insights](https://www.storyclash.com/influencer-market-insights)
+- [Influencer CRM](https://www.storyclash.com/influencer-crm)
+- [Analytics & Performance Tracking](https://www.storyclash.com/influencer-performance-tracking)
+- [Pricing](https://www.storyclash.com/pricing)
+- [Blog](https://www.storyclash.com/blog/en)
+
+## Support & Legal
+
+- [Status Page](https://status.storyclash.com/)
+- [Help Center](https://help.storyclash.com/)
+- [Terms of Service](https://www.storyclash.com/terms)
+- [Privacy Policy](https://www.storyclash.com/privacy)
+- [Login](https://app.storyclash.com/login)

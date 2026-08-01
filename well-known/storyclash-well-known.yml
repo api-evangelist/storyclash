@@ -1,0 +1,17 @@
+generated: '2026-07-21'
+method: searched
+source: live probes of storyclash.com and app.storyclash.com
+summary: >-
+  No .well-known discovery documents were served (all probes returned 401/403/404 or
+  redirects). Recorded for provenance; no WellKnown catalog pointer is emitted since
+  nothing resolved to a usable 200 document.
+hosts:
+- host: https://www.storyclash.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://app.storyclash.com
+  documents:
+  - {path: /.well-known/openid-configuration, status: 403}
+  - {path: /.well-known/oauth-authorization-server, status: 403}

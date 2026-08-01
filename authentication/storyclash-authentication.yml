@@ -1,0 +1,22 @@
+generated: '2026-07-21'
+method: searched
+source: https://www.storyclash.com/integrations/api-integration
+docs: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+summary:
+  types: [apiKey]
+  api_key_in: [header]
+  oauth2_flows: []
+  notes: >-
+    Storyclash publishes no machine-readable OpenAPI. The API integration page and
+    the Notion API documentation describe a single token-based authentication model
+    over HTTPS. No OAuth2 or OpenID Connect surface is documented, so scopes/ is not
+    applicable.
+schemes:
+- name: apiToken
+  type: apiKey
+  in: header
+  description: >-
+    Token-based authentication. Storyclash provisions an API token per customer
+    that is sent on each request. Rate limiting is configurable per token/campaign
+    (default 1 request/hour per campaign, adjustable for enterprise).
+  sources: [https://www.storyclash.com/integrations/api-integration]

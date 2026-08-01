@@ -1,0 +1,21 @@
+generated: '2026-07-21'
+method: searched
+source: https://status.storyclash.com/
+summary: >-
+  Operational lifecycle signals for Storyclash captured from public surfaces. The
+  provider runs a hosted Uptime.com status page. No public versioning policy,
+  deprecation policy, RFC 8594 Sunset/Deprecation header support, or SLA document was
+  found on the public developer surface.
+versioning:
+  scheme: unknown
+  detail: No public API versioning policy documented.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  detail: No deprecation policy or Sunset/Deprecation header support documented.
+sla:
+  url: null
+  uptime_target: null
+status_page: https://status.storyclash.com/
+status_page_provider: Uptime.com
+deprecated_operations: []
