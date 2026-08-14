@@ -11,20 +11,32 @@ description: >-
   authentication and real-time webhooks that streams campaign KPIs (50+ metrics
   per campaign), creator profiles, content performance, and revenue attribution
   as structured JSON into BI tools such as Power BI, Tableau, and Looker Studio.
-  The company, headquartered in Linz, Austria, was surfaced as a portfolio
-  company of Speedinvest and has since been acquired by Kolsquare.
+  The documented API surface is small and enterprise-gated: three endpoints under
+  https://app.storyclash.com/external-api/ authenticated by a per-customer token
+  passed as a query parameter, with a single outbound webhook that reports the
+  outcome of a bulk creator import. The company, headquartered in Linz, Austria,
+  was surfaced as a portfolio company of Speedinvest and has since been acquired
+  by Kolsquare, a team.blue brand, and now trades as "Storyclash by Kolsquare".
 accessModel:
-  pricing: unknown
-  onboarding: self-serve
+  pricing: contact-sales
+  onboarding: sales-gate
   trial: false
   try_now: false
   public: false
-  label: Self-serve signup
-  confidence: medium
+  label: Enterprise, contact sales
+  confidence: high
   source:
-  - authentication
-  generated: '2026-07-22'
-  method: derived
+  - https://www.storyclash.com/pricing
+  - https://www.storyclash.com/integrations/api-integration
+  - https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+  note: >-
+    Corrected 2026-08-13 from "self-serve". The pricing page's only conversion path is
+    "Book a 1:1 demo now" and states pricing is tailored; API access is gated behind
+    "Get API access" / "Request Enterprise Demo"; the creator-import endpoint is "not
+    available by default - please get in touch with your CSM". Tokens are provisioned by
+    Storyclash, not self-issued.
+  generated: '2026-08-13'
+  method: searched
 image: https://www.storyclash.com/favicon.ico
 url: https://raw.githubusercontent.com/api-evangelist/storyclash/refs/heads/main/apis.yml
 x-type: company
@@ -35,7 +47,7 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-21'
+modified: '2026-08-13'
 tags:
 - Company
 - Influencer Marketing
@@ -49,14 +61,27 @@ tags:
 apis:
 - name: Storyclash API
   description: >-
-    Enterprise REST API for the Storyclash influencer marketing platform.
-    Token-based authentication over HTTPS returning structured JSON, with
-    real-time webhooks for campaign updates and creator import status. Endpoints
-    cover campaign data (50+ KPIs, creator profiles, content performance, revenue
-    attribution) and bulk creator import with intelligent rate limiting. Built to
-    feed BI tools (Power BI, Tableau, Looker Studio).
+    Enterprise REST API for the Storyclash influencer marketing platform. Three
+    documented endpoints under https://app.storyclash.com/external-api/: GET
+    /campaigns lists the authenticated customer's campaigns, GET
+    /campaign/{campaign_id} returns the full campaign payload (campaign header,
+    paginated posts with metrics and mentions, and creators with shop and link
+    attribution data), and POST /import/creator bulk-imports creators by platform
+    handle. Authenticated by a per-customer token passed as a query parameter on
+    GET and as a body field on POST. One outbound webhook reports per-creator
+    import outcomes against a 14-value status registry. Campaign data is
+    pull-only and rate limited to one request per hour per campaign per result
+    page. Built to feed BI tools (Power BI, Tableau, Looker Studio).
   humanURL: https://www.storyclash.com/integrations/api-integration
-  baseURL: https://api.storyclash.com
+  baseURL: https://app.storyclash.com/external-api
+  x-baseURL-note: >-
+    Corrected 2026-08-13. Every endpoint in Storyclash's own API documentation is rooted at
+    https://app.storyclash.com/external-api/ and a live unauthenticated GET on
+    /external-api/campaigns returns HTTP 200 with a Storyclash JSON body. The previously
+    recorded host api.storyclash.com is an AWS API Gateway (CNAME
+    d-kznsfkvpob.execute-api.eu-north-1.amazonaws.com) that answers every probed path with 403
+    {"message":"Missing Authentication Token"} and is named in no documentation.
+  x-secondary-host: https://api.storyclash.com
   tags:
   - Influencer Marketing
   - Analytics
@@ -70,6 +95,14 @@ apis:
     url: asyncapi/storyclash-webhooks.yml
   - type: Conventions
     url: conventions/storyclash-conventions.yml
+  - type: ErrorCatalog
+    url: errors/storyclash-error-codes.yml
+  - type: RateLimits
+    url: rate-limits/storyclash-rate-limits.yml
+  - type: DataModel
+    url: data-model/storyclash-data-model.yml
+  - type: Examples
+    url: examples/storyclash-examples.yml
 common:
 - type: DeveloperPortal
   url: https://www.storyclash.com/integrations/api-integration
@@ -101,13 +134,35 @@ common:
   url: conventions/storyclash-conventions.yml
 - type: DomainSecurity
   url: security/storyclash-domain-security.yml
+- type: APIReference
+  url: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+- type: GitHubOrganization
+  url: https://github.com/storyclash
+- type: HelpCenter
+  url: https://help.storyclash.com/
+- type: SignUp
+  url: https://www.storyclash.com/request-demo
+- type: ErrorCatalog
+  url: errors/storyclash-error-codes.yml
+- type: RateLimits
+  url: rate-limits/storyclash-rate-limits.yml
+- type: Plans
+  url: plans/storyclash-plans-pricing.yml
+- type: DataModel
+  url: data-model/storyclash-data-model.yml
+- type: Examples
+  url: examples/storyclash-examples.yml
+- type: Packages
+  url: packages/storyclash-packages.yml
+- type: Conformance
+  url: conformance/storyclash-conformance.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 x-enrichment:
-  date: '2026-07-21'
+  date: '2026-08-13'
   status: enriched
-  artifacts_added: 7
+  artifacts_added: 11
   pass: local-v1
