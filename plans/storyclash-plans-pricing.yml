@@ -1,0 +1,72 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.storyclash.com/pricing
+plan_count: 3
+pricing_model: contact-sales
+currency: EUR
+summary: >-
+  Storyclash does not publish a rate card. The pricing page states "pricing is tailored to
+  your goals" and routes to a demo booking. Three named price points — STARTER EUR 499,
+  GROWTH EUR 999, SCALE EUR 1,899 — appear only inside an FAQ answer ("When does it make sense
+  to invest in professional influencer marketing software?"), presented as guidance on when
+  each tier makes sense rather than as a purchasable tier table. They are recorded here
+  because they are the only prices the provider publishes anywhere, with that caveat attached.
+  The page also carries a banner that Storyclash is now part of Kolsquare and that "our
+  solutions are evolving", so these figures are in transition.
+plans:
+  - name: STARTER
+    price: 499
+    currency: EUR
+    billing_period: unstated
+    published_as: FAQ guidance, not a tier table
+    fit: Running 10+ monthly collaborations
+    included:
+      - Organized creator campaign management (vs. scattered spreadsheets)
+      - At least one person handling influencer marketing
+    api_access: not stated
+    quotas: []
+    overage: not published
+  - name: GROWTH
+    price: 999
+    currency: EUR
+    billing_period: unstated
+    published_as: FAQ guidance, not a tier table
+    fit: Managing 50+ monthly collaborations
+    included:
+      - ROI tracking / prove campaign value
+      - Team collaboration features
+      - Competitor insights for strategic planning
+    api_access: not stated
+    quotas: []
+    overage: not published
+  - name: SCALE
+    price: 1899
+    currency: EUR
+    billing_period: unstated
+    published_as: FAQ guidance, not a tier table
+    fit: Handling 100+ paid collaborations monthly; thousands of organic brand mentions
+    included:
+      - Advanced analytics and white-label reporting
+      - Multiple brands or regions
+    api_access: not stated
+    quotas: []
+    overage: not published
+api_access:
+  self_serve: false
+  tier: enterprise
+  detail: >-
+    API access is not attached to any published tier. The API integration page gates it behind
+    "Get API access" / "Request Enterprise Demo", and the creator-import endpoint is
+    explicitly "not available by default - please get in touch with your CSM if you are
+    interested." Rate limits are described as adjustable for enterprise.
+  source: https://www.storyclash.com/integrations/api-integration
+free_tier:
+  exists: false
+  note: >-
+    Two free tools are published (AI Influencer Search, Instagram Brand Rankings) but they are
+    web tools, not API access. A demo is booked, not self-served.
+  urls:
+    - https://www.storyclash.com/pricing
+signup:
+  self_serve: false
+  detail: The pricing page's only conversion path is "Book a 1:1 demo now".

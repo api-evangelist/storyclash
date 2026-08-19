@@ -1,0 +1,53 @@
+generated: '2026-08-13'
+method: searched
+source: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+note: >-
+  Payloads saved verbatim from the provider's own API documentation, including the provider's
+  inline // comments (which is why the files carry a .jsonc extension — as published they are
+  annotated JSON, not strictly parseable JSON). Values are Storyclash's illustrative samples,
+  not test fixtures, and no field or value has been added, removed or corrected. The
+  creator-import request block is reproduced as published, missing comma and all.
+example_count: 3
+examples:
+  - name: Campaign Data response
+    file: examples/storyclash-campaign-data-response.jsonc
+    operation:
+      method: GET
+      url: https://app.storyclash.com/external-api/campaign/{campaign_id}?token={YOUR_AUTH_TOKEN}
+    direction: response
+    status: 200
+    description: >-
+      The full Campaign Data payload — campaign header, posts[] with metrics and mentions,
+      creators[] with additionalFields, shopData and linkData, and the hasMoreResults
+      pagination flag.
+  - name: All Campaigns response
+    file: examples/storyclash-campaigns-list-response.jsonc
+    operation:
+      method: GET
+      url: https://app.storyclash.com/external-api/campaigns?token={YOUR_AUTH_TOKEN}
+    direction: response
+    status: 200
+    description: JSON array of campaign objects for the authenticated customer; no pagination.
+  - name: Creator Import request
+    file: examples/storyclash-creator-import-request.jsonc
+    operation:
+      method: POST
+      url: https://app.storyclash.com/external-api/import/creator
+    direction: request
+    description: >-
+      Request body structure — token, one or more platform handles, optional campaign and list
+      ids, optional additional_fields[] with string-encoded JSON values, and the optional
+      webhook callback URL.
+  - name: Auth failure envelope
+    file: null
+    operation:
+      method: GET
+      url: https://app.storyclash.com/external-api/campaigns
+    direction: response
+    status: 200
+    body: '{"message":"Invalid API Key"}'
+    method_note: probed live 2026-08-13, not published by the provider
+cross_links:
+  data_model: data-model/storyclash-data-model.yml
+  errors: errors/storyclash-error-codes.yml
+  conventions: conventions/storyclash-conventions.yml

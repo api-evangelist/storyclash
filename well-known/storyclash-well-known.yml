@@ -1,17 +1,76 @@
-generated: '2026-07-21'
-method: searched
-source: live probes of storyclash.com and app.storyclash.com
+generated: '2026-08-13'
+method: probed
+source: live HTTPS probes of every Storyclash host on 2026-08-13
 summary: >-
-  No .well-known discovery documents were served (all probes returned 401/403/404 or
-  redirects). Recorded for provenance; no WellKnown catalog pointer is emitted since
-  nothing resolved to a usable 200 document.
+  No Storyclash-controlled .well-known discovery document was served on any host. The API
+  host (api.storyclash.com) is an AWS API Gateway that answers every path — including every
+  /.well-known/* path — with HTTP 403 {"message":"Missing Authentication Token"}. The
+  marketing host 404s all paths, the app host 403s them, and the status host 404s them. The
+  ONE 200 in this probe is a security.txt served on help.storyclash.com, and it is NOT
+  Storyclash's: it is Intercom's, served because the help center is a hosted Intercom
+  property (Canonical: https://app.intercom.com/.well-known/security.txt, Contact:
+  bugcrowd.com/intercom). It documents Intercom's vulnerability program, not Storyclash's, so
+  no SecurityTxt or Security pointer is emitted from it.
+pointer_emitted: false
+pointer_reason: >-
+  Every path either missed or returned a document belonging to a third-party vendor. A
+  WellKnown pointer would assert that Storyclash serves a discovery surface, which it does not.
 hosts:
-- host: https://www.storyclash.com
-  documents:
-  - {path: /.well-known/security.txt, status: 404}
-  - {path: /.well-known/api-catalog, status: 404}
-  - {path: /.well-known/ai-plugin.json, status: 404}
-- host: https://app.storyclash.com
-  documents:
-  - {path: /.well-known/openid-configuration, status: 403}
-  - {path: /.well-known/oauth-authorization-server, status: 403}
+  - host: https://api.storyclash.com
+    note: AWS API Gateway (CNAME d-kznsfkvpob.execute-api.eu-north-1.amazonaws.com); uniform 403 on all paths.
+    documents:
+      - {path: /.well-known/security.txt, status: 403, file: null}
+      - {path: /.well-known/openid-configuration, status: 403, file: null}
+      - {path: /.well-known/oauth-authorization-server, status: 403, file: null}
+      - {path: /.well-known/oauth-protected-resource, status: 403, file: null}
+      - {path: /.well-known/api-catalog, status: 403, file: null}
+      - {path: /.well-known/ai-plugin.json, status: 403, file: null}
+      - {path: /.well-known/agent-card.json, status: 403, file: null}
+      - {path: /.well-known/agent.json, status: 403, file: null}
+  - host: https://www.storyclash.com
+    documents:
+      - {path: /.well-known/security.txt, status: 404, file: null}
+      - {path: /.well-known/openid-configuration, status: 404, file: null}
+      - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+      - {path: /.well-known/oauth-protected-resource, status: 404, file: null}
+      - {path: /.well-known/api-catalog, status: 404, file: null}
+      - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+      - {path: /.well-known/agent-card.json, status: 404, file: null}
+      - {path: /.well-known/agent.json, status: 404, file: null}
+  - host: https://app.storyclash.com
+    documents:
+      - {path: /.well-known/security.txt, status: 403, file: null}
+      - {path: /.well-known/openid-configuration, status: 403, file: null}
+      - {path: /.well-known/oauth-authorization-server, status: 403, file: null}
+      - {path: /.well-known/oauth-protected-resource, status: 403, file: null}
+      - {path: /.well-known/api-catalog, status: 403, file: null}
+      - {path: /.well-known/ai-plugin.json, status: 403, file: null}
+      - {path: /.well-known/agent-card.json, status: 403, file: null}
+      - {path: /.well-known/agent.json, status: 403, file: null}
+  - host: https://help.storyclash.com
+    note: Hosted Intercom help center; the one 200 below is Intercom's own document.
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: null
+        owner: Intercom (third party)
+        canonical: https://app.intercom.com/.well-known/security.txt
+        note: >-
+          Not saved and not pointed at. Contact bugcrowd.com/intercom and
+          security@intercom.com; Policy bugcrowd.com/resource/standard-disclosure-terms/;
+          Expires 2029-03-15. Crediting Storyclash with this would credit it with Intercom's
+          vulnerability disclosure program.
+      - {path: /.well-known/openid-configuration, status: 404, file: null}
+      - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+      - {path: /.well-known/oauth-protected-resource, status: 404, file: null}
+      - {path: /.well-known/api-catalog, status: 404, file: null}
+      - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+  - host: https://status.storyclash.com
+    note: Hosted Uptime.com status page (CNAME cname.uptime.com).
+    documents:
+      - {path: /.well-known/security.txt, status: 404, file: null}
+      - {path: /.well-known/openid-configuration, status: 404, file: null}
+      - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+      - {path: /.well-known/oauth-protected-resource, status: 404, file: null}
+      - {path: /.well-known/api-catalog, status: 404, file: null}
+      - {path: /.well-known/ai-plugin.json, status: 404, file: null}

@@ -1,32 +1,70 @@
+<!-- generated: '2026-08-13' | method: searched | source: https://www.storyclash.com/llms.txt | http_status: 200 | note: saved verbatim from the provider's own /llms.txt; supersedes the API-Evangelist-generated file written 2026-07-21 -->
 # Storyclash
 
-> Storyclash is an AI-powered influencer marketing software platform for brands and agencies to discover creators, analyze brand and competitor strategies, manage collaborations in a purpose-built CRM, and measure campaign performance and revenue ROI across Instagram, TikTok, YouTube, and Facebook. It exposes an enterprise REST API with token-based authentication and real-time webhooks that streams campaign KPIs, creator profiles, content performance, and revenue attribution as structured JSON into BI tools (Power BI, Tableau, Looker Studio). Headquartered in Linz, Austria; a Speedinvest portfolio company, since acquired by Kolsquare.
+> Storyclash is an AI-powered influencer marketing platform that helps brands and agencies discover authentic creators, manage campaigns, and measure ROI across Instagram, TikTok, and YouTube. The platform uses advanced AI technology to analyze content and match brands with creators who align with their values and aesthetics.
 
-## APIs
+## Core Feature - Creator Discovery
+- [AI-Powered Search](https://www.storyclash.com/influencer-discovery): Find brand-fit creators based on content analysis rather than vanity metrics
+- [Visual Content Matching](https://www.storyclash.com/influencer-discovery): Discover creators by describing desired content aesthetics
+- [Lookalike Creator Discovery](https://www.storyclash.com/influencer-discovery): Find influencers similar to your top-performing creators
+- [Advanced Filtering](https://www.storyclash.com/influencer-discovery): Filter by country, language, gender, follower size, and engagement rate
+- [Brand Collaboration Timeline](https://www.storyclash.com/influencer-discovery): View comprehensive history of creator partnerships
 
-- [Storyclash API](https://www.storyclash.com/integrations/api-integration): Enterprise REST API — token auth over HTTPS, structured JSON, real-time webhooks; campaign data (50+ KPIs) and bulk creator import. Base URL https://api.storyclash.com
-- [API Documentation (Notion)](https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01): Endpoint specifications, JSON response examples, and integration guide.
+## Core Feature - Campaign Management
+- [Influencer CRM](https://www.storyclash.com/influencer-crm): Manage all creator relationships in one centralized platform
+- [Automated Outreach](https://www.storyclash.com/influencer-crm): Personalized outreach with templates and automation
+- [Campaign Planning](https://www.storyclash.com/influencer-crm): Streamline campaign workflow from discovery to execution
+- [Content Management](https://www.storyclash.com/influencer-crm): Organize and track all campaign content and assets
 
-## Docs
+## Core Feature - Analytics & Reporting
+- [Performance Tracking](https://www.storyclash.com/influencer-performance-tracking): Monitor campaign performance across 50+ metrics
+- [ROI Measurement](https://www.storyclash.com/influencer-performance-tracking): Track revenue attribution and discount code performance
+- [Cross-Platform Reports](https://www.storyclash.com/influencer-performance-tracking): Generate comprehensive reports across Instagram, TikTok, and YouTube
+- [Competitor Analysis](https://www.storyclash.com/influencer-performance-tracking): Analyze competitor influencer strategies and collaborations
 
-- [Authentication](https://raw.githubusercontent.com/api-evangelist/storyclash/refs/heads/main/authentication/storyclash-authentication.yml): Token-based (apiKey in header).
-- [Webhooks](https://raw.githubusercontent.com/api-evangelist/storyclash/refs/heads/main/asyncapi/storyclash-webhooks.yml): campaign.updated and creator.import.status callbacks.
-- [Conventions](https://raw.githubusercontent.com/api-evangelist/storyclash/refs/heads/main/conventions/storyclash-conventions.yml): auth, rate limiting, JSON transport, webhooks.
-- [Lifecycle](https://raw.githubusercontent.com/api-evangelist/storyclash/refs/heads/main/lifecycle/storyclash-lifecycle.yml): status page (Uptime.com).
+## Core Feature - Market Insights
+- [Competitor Creator Strategy Analysis](https://www.storyclash.com/influencer-market-insights): Reverse-engineer any brand's strategy
+- [Content Exploration](https://www.storyclash.com/influencer-market-insights):  Tap into a brand’s content and performance on every platform.
+- [Strategy Analysis](https://www.storyclash.com/influencer-market-insights)): Analyze other brands’ influencer strategies
+- [Collaboration insights](https://www.storyclash.com/influencer-market-insights)): Get your competitor’s best creators
 
-## Product
+## Core Feature - Content Intelligence
+- [Content Analysis](https://www.storyclash.com/): Analyze creator content for brand alignment and authenticity
+- [Hashtag and Mention Tracking](https://www.storyclash.com/): Monitor brand mentions across platforms
 
-- [Influencer Discovery](https://www.storyclash.com/influencer-discovery)
-- [Brand Insights](https://www.storyclash.com/influencer-market-insights)
-- [Influencer CRM](https://www.storyclash.com/influencer-crm)
-- [Analytics & Performance Tracking](https://www.storyclash.com/influencer-performance-tracking)
-- [Pricing](https://www.storyclash.com/pricing)
-- [Blog](https://www.storyclash.com/blog/en)
+## Supported Platforms
+- [Instagram Monitoring](https://www.storyclash.com/instagram-monitoring): Track brand mentions and influencers on Instagram
+- [TikTok Monitoring](https://www.storyclash.com/tiktok-monitoring): Maximize your TikTok ROI with advanced insights and powerful reporting
+- [Facebook Monitoring](https://www.storyclash.com/facebook-monitoring): Monitor brands, influencers and campaigns on Facebook
+- [Youtube Monitoring](https://www.storyclash.com/youtube-monitoring): Find content trends and monitor your competition on Youtube
+- [Snapchat Monitoring](https://www.storyclash.com/platforms/snapchat-influencer-marketing): Analyse creators and ROI on Snapchat - Coming soon
 
-## Support & Legal
+## Pricing Plans
+- [Pricing Information](https://www.storyclash.com/pricing): View current pricing plans
 
-- [Status Page](https://status.storyclash.com/)
-- [Help Center](https://help.storyclash.com/)
-- [Terms of Service](https://www.storyclash.com/terms)
+## Integrations
+- [Shopify](https://www.storyclash.com/integrations/shopify-influencer-marketing): E-commerce integration for tracking discount codes and sales
+- [API Access](https://www.storyclash.com/): Available for custom integrations
+
+## Support & Resources
+- [Platform Demo](https://www.storyclash.com/request-demo): Schedule a guided demo with product experts
+- [Blog](https://www.storyclash.com/blog/en/): Industry insights and best practices
+- [Customer Support](https://www.storyclash.com/contact): Available customer support team
+- [Webinars](https://www.storyclash.com/webinars): Webinars about Influencer Marketing
+- [Templates](https://www.storyclash.com/templates): Templates for Influencer Contracts, Outreach, Briefings, Media Value Calculators
+- [Reports & Guides](https://www.storyclash.com/guides): Get the Influencer Marketing Strategy Guide and a list of the top influencer marketing platforms
+- [Case Studies](https://www.storyclash.com/customers): Success stories from brands like Wild, Bears with Benefits
+- [Newsletter](https://www.storyclash.com/request-newsletter): Get updates on anything related influencer marketing and Storyclash
+
+## Company Information
 - [Privacy Policy](https://www.storyclash.com/privacy)
-- [Login](https://app.storyclash.com/login)
+- [Press & Media](https://www.storyclash.com/press)
+- [Imprint](https://www.storyclash.com/imprint)
+- [Careers](https://www.storyclash.com/careers): Job Openings at Storyclash
+
+## Optional
+- [Linkedin](https://www.linkedin.com/company/10970775/)
+- [Instagram](https://www.instagram.com/storyclash.ig/)
+- [Youtube](https://www.youtube.com/@storyclash)
+- [Facebook](https://www.facebook.com/storyclash/)
+- [Privacy Policy](https://www.storyclash.com/privacy)

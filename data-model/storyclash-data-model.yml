@@ -1,0 +1,162 @@
+generated: '2026-08-13'
+method: derived
+source: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+derived_from: >-
+  The provider's published response payloads for GET /external-api/campaign/{campaign_id} and
+  GET /external-api/campaigns. There is no OpenAPI and no components.schemas to read, so the
+  entity graph below is derived from the annotated JSON examples in the documentation — every
+  field named here appears in the provider's own example, with the provider's own comment as
+  the description. No field, type or relationship has been invented.
+summary: >-
+  A three-entity graph rooted on Campaign. One Campaign Data response returns the campaign
+  header, a paginated array of Posts and a complete array of Creators, joined by integer
+  creator_id. Posts and Creators are joined only through that id; the API returns no nested
+  objects, so a consumer reassembles the graph client-side. Metrics, shop data and link data
+  are value objects embedded on their parent.
+id_convention:
+  type: integer
+  prefixed: false
+  scope: per-customer
+  note: >-
+    All identifiers (customer, campaign, post, creator, folder, list, additional field,
+    packageId, entryId, feedId) are bare integers with no type prefix and no global
+    namespacing, so an id is only meaningful alongside the entity name it came from.
+entities:
+  - name: Customer
+    id_field: customer
+    note: >-
+      Appears only as an integer on Campaign ("id of the authenticated customer"). Not
+      independently retrievable — there is no customer endpoint.
+    fields:
+      - {name: customer, type: integer, description: id of the authenticated customer}
+  - name: Campaign
+    id_field: id
+    endpoints:
+      - GET /external-api/campaigns
+      - GET /external-api/campaign/{campaign_id}
+    fields:
+      - {name: customer, type: integer, description: id of the authenticated customer}
+      - {name: id, type: integer, description: id of the current campaign}
+      - {name: name, type: string, description: campaign name}
+      - {name: url, type: string, description: campaign url in the tool}
+      - {name: from, type: integer, description: campaign start time (unix, UTC)}
+      - {name: to, type: integer, description: campaign end time (unix, UTC)}
+      - {name: folderName, type: string, nullable: true, description: name of the folder, null if it's not in a directory}
+      - {name: folderId, type: integer, nullable: true, description: id of the folder, null if it's not in a directory}
+      - {name: type, type: integer, description: '1 = campaign, 2 = market report'}
+    enums:
+      type: {1: campaign, 2: market report}
+  - name: Post
+    id_field: id
+    parent: Campaign
+    note: Returned as the posts[] array of the Campaign Data response, sorted by id, paginated 1,000 per page.
+    fields:
+      - {name: id, type: integer, description: unique id of the post; response is sorted by these values}
+      - {name: date, type: integer, description: creation time of the post (unix)}
+      - {name: text, type: string, description: post text}
+      - {name: directLink, type: string, description: direct link to creator post (not available for stories)}
+      - {name: linkedUrl, type: string, description: external link (swipe-up link) in e.g. Stories}
+      - {name: platform, type: string, description: 'Instagram, TikTok, Facebook, Twitter, Youtube'}
+      - {name: type, type: string, description: 'type of post on that platform: Post, Story, Reel, Video, Shorts'}
+      - {name: postType, type: string, description: 'type of post (only applicable to IG, FB, TW): Photo, Status, Article, Video'}
+      - {name: tags, type: array, description: tags set by the user}
+      - {name: creator_id, type: integer, description: id of the creator that is also a part of the creators array}
+      - {name: linkToPost, type: string, description: deep link into the Storyclash UI for this post}
+      - {name: metrics, type: object, description: embedded metrics value object}
+      - {name: mentions, type: array, description: embedded mention value objects}
+  - name: Creator
+    id_field: id
+    parent: Campaign
+    note: >-
+      Returned as the creators[] array of the Campaign Data response, and "also includes those
+      that have no posts" — so the array is not derivable from posts[].
+    fields:
+      - {name: id, type: integer, description: id of the creator}
+      - {name: name, type: string, description: storyclash name}
+      - {name: nameOriginal, type: string}
+      - {name: alias, type: string, description: optional storyclash defined alias name}
+      - {name: creatorType, type: string, description: 'influencer, brand, media'}
+      - {name: category, type: string, description: name of the first category}
+      - {name: country, type: string, description: country code i.e. DE}
+      - {name: language, type: string, description: language code i.e. EN}
+      - {name: urlInstagram, type: string, description: profile url per platform ("" if not on that platform)}
+      - {name: urlFacebook, type: string}
+      - {name: urlTwitter, type: string}
+      - {name: urlYoutube, type: string}
+      - {name: urlTiktok, type: string}
+      - {name: followersInstagram, type: integer, nullable: true, description: followers per platform (null if creator is not on that platform)}
+      - {name: followersFacebook, type: integer, nullable: true}
+      - {name: followersTwitter, type: integer, nullable: true}
+      - {name: followersYoutube, type: integer, nullable: true}
+      - {name: followersTiktok, type: integer, nullable: true}
+      - {name: instagramName, type: string, description: screen name on platform}
+      - {name: facebookName, type: string}
+      - {name: twitterName, type: string}
+      - {name: tiktokName, type: string}
+      - {name: youtubeName, type: string}
+      - {name: linkToCreator, type: string, description: deep link into the Storyclash UI for this creator}
+      - {name: cost, type: number, nullable: true, description: cost assigned to the creator}
+      - {name: additionalFields, type: array, description: embedded custom-field value objects}
+      - {name: shopData, type: object, description: data from shop integration}
+      - {name: linkData, type: object, description: data from link tracking integration}
+value_objects:
+  - name: Metrics
+    embedded_on: Post
+    note: values are 0 if N/A
+    fields: [interactions, likes, comments, shares, videoViews, videoLength, engagementRate, estimatedReach, estimatedMediaValue]
+  - name: Mention
+    embedded_on: Post
+    fields:
+      - {name: handle, type: string, description: 'example: @storyclash'}
+      - {name: creator_id, type: integer, optional: true, description: id of the creator that is also a part of the creators array}
+      - {name: creatorType, type: string, optional: true, description: 'brand | influencer | media'}
+  - name: AdditionalField
+    embedded_on: Creator
+    fields:
+      - {name: id, type: integer, description: unique id for this additional field}
+      - {name: name, type: string}
+      - {name: description, type: string}
+      - {name: value, type: any, description: can be bool, string, array - depending on the additional field}
+  - name: ShopData
+    embedded_on: Creator
+    description: data from shop integration (e.g. the Shopify integration)
+    fields: [discountCode, nrOfNewCustomers, nrOfReturningCustomers, newCustomerRatio, uniqueCustomers,
+      customerAcquisitionCost, costPerConversionTotal, costPerConversionNewCustomers,
+      costPerConversionReturningCustomers, averageBasketSizeTotal, averageBasketSizeNewCustomers,
+      averageBasketSizeReturningCustomers, averageOrderValueTotal, averageOrderValueNewCustomers,
+      averageOrderValueReturningCustomers, nrOfConversionsTotal, nrOfConversionsNewCustomers,
+      nrOfConversionsReturningCustomers, revenue, revenueNewCustomers, revenueReturningCustomers,
+      netSalesTotal, netSalesNewCustomers, netSalesReturningCustomers, roas, codeUsages, conversionRate]
+  - name: LinkData
+    embedded_on: Creator
+    description: data from link tracking integration
+    fields: [trackingLink, linkClicks, topCountry, topCity, topDevice, topReferrer]
+  - name: CreatorImportResult
+    delivered_via: webhook callback
+    fields: [packageId, entryId, status, statusName, feedId, requestData]
+    note: See asyncapi/storyclash-webhooks.yml and errors/storyclash-error-codes.yml.
+relationships:
+  - {from: Campaign, to: Customer, type: belongs_to, via: customer}
+  - {from: Campaign, to: Folder, type: belongs_to, via: folderId, optional: true, note: Folder is not an addressable entity; only its id and name are returned inline.}
+  - {from: Campaign, to: Post, type: has_many, via: 'posts[]', note: 'paginated 1,000 per page, capped at 250,000'}
+  - {from: Campaign, to: Creator, type: has_many, via: 'creators[]', note: includes creators with no posts}
+  - {from: Post, to: Creator, type: belongs_to, via: creator_id}
+  - {from: Post, to: Metrics, type: has_one, via: metrics}
+  - {from: Post, to: Mention, type: has_many, via: 'mentions[]'}
+  - {from: Mention, to: Creator, type: belongs_to, via: creator_id, optional: true}
+  - {from: Creator, to: AdditionalField, type: has_many, via: 'additionalFields[]'}
+  - {from: Creator, to: ShopData, type: has_one, via: shopData}
+  - {from: Creator, to: LinkData, type: has_one, via: linkData}
+  - {from: CreatorImport, to: Campaign, type: belongs_to, via: campaign, note: request field; must be a type-1 campaign}
+  - {from: CreatorImport, to: List, type: belongs_to, via: list, optional: true, note: List is not otherwise exposed by the API.}
+observations:
+  - >-
+    A Creator is denormalised per campaign — the same person appears with the same id inside
+    every campaign response they participate in, but there is no standalone creator endpoint
+    to fetch them once.
+  - >-
+    Folder and List are referenced by id but have no endpoint of their own; a consumer can
+    never enumerate them.
+  - >-
+    Attribution data (shopData, linkData) hangs off the Creator, not the Post, so revenue
+    cannot be attributed to an individual piece of content through this API.

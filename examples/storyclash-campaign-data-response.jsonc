@@ -1,0 +1,121 @@
+{
+  "campaign": {
+    "customer": 1,                                               // id of the authenticated customer
+    "id": 1234,                                                  // id of the current campaign
+    "name": "Campaign Name",                                     // campaign name
+    "url": "https://app.storyclash.com/campaigns/detail/1234",   // campaign url in the tool
+    "from": 1649023200,                                          // campaign start time
+    "to": 1649282399,                                            // campaign end time
+    "folderName": "Text",                                        // name of the folder, null if it's not in a direcatory
+	  "folderId": 123,                                             // id of the folder, null if it's not in a direcotry
+    "type": 1                                                    // type of the campaign, 1 - campaign, 2 - market report
+  },
+  "posts": [                                                     // array of all posts in the campaign
+    {
+	    "date": 1649288061,                                        // creation time of the post
+			"id": 1234,                                                // unique id of the post, response is sorted by these values
+			"text": "Text",                                            // post text
+      "directLink": "https://www.instagram.com/p/Cgy0iJbDp98/",  // direct link to creator post (not available for stories)
+      "linkedUrl": "https://www.google.com"                      // external link (swipe-up link) in e.g Stories
+      "platform": "Instagram",                                   // platform ['Instagram', 'Instagram', 'TikTok', 'Facebook', 'Twitter', 'Youtube']
+      "type": "Story",                                           // type of post on that platform ['Post', 'Story', 'Reel', 'Video', 'Shorts']
+      "tags": [],                                                // tags set by the user
+      "metrics": {                                               // metrics on all platforms (values are 0 if N/A)
+        "interactions": 0,
+        "likes": 0,
+        "comments": 0,
+        "shares": 0,
+        "videoViews": 0,
+        "videoLength": 5,
+        "engagementRate": 0,
+        "estimatedReach": 1027,
+        "estimatedMediaValue": 10
+      },
+      "mentions": [
+	      {
+		      "handle": "",                                          // *example: @storyclash,  *
+		      "creator_id": 123,                                     // *optional* id of the creator that is also a part of the creators array
+		      "creatorType": "brand" or "influencer" or "media"      // *optional* 
+		    },
+			],                             
+			"creator_id": 123,                                         // id of the creator that is also a part of the creators array
+			"linkToPost": "",                                          // i.e.https://app.storyclash.com/campaigns/detail/7833?postId=1234
+	    "postType": "Photo"                                        // type of post (only applicable to IG, FB, TW)  ['Photo', 'Status', 'Article', 'Video']             
+	  }
+  ],
+  "creators": [                                                  // array of all creators in the campaign (also includes those that have no posts)
+    {
+      "id": 123,                                                 // id of the creator
+      "name": "",                                                // storyclash name
+      "nameOriginal": "",
+      "alias": "",                                               // *optional* storyclash defined alias name
+			"creatorType": "",                                         // influencer, brand, media
+			"category": "",                                            // name of the first category
+			"country": "",                                             // country code i.e. DE
+			"language": "",                                            // language code i.e. EN
+      "urlInstagram": "",                                        // profile url platform ("" if creator is not on that platform)
+      "urlFacebook": "",
+      "urlTwitter": "",
+      "urlYoutube": "",
+      "urlTiktok": "",
+      "followersInstagram": null,                                // followers per platform (null if creator is not on that platform)
+      "followersFacebook": null,
+      "followersTwitter": null,
+      "followersYoutube": null,
+      "followersTiktok": null,  
+      "instagramName": "",                                       // screen name on platform ("" if creator is not on that platform)
+      "facebookName": "",
+      "twitterName": ""
+      "tiktokName": "",
+      "youtubeName": "",
+			"linkToCreator": "",                                       // i.e. https://app.storyclash.com/campaigns/detail/7833?creatorId=1234
+			"additionalFields": [
+	      {
+	        "id": 123,                                             // unique id for this additional field
+          "name": "",
+          "description": "",
+          "value": ""                                            // can be bool, string, array - depending on the additional field     
+        }
+			],
+      "cost": null,                                              // cost assigned to the creator
+      "shopData": {                                              // data from shop integration
+        "discountCode": null,                                    // code applied to the creator
+        "nrOfNewCustomers": null,
+        "nrOfReturningCustomers": null,
+        "newCustomerRatio": null,
+        "uniqueCustomers": null,
+        "customerAcquisitionCost": null,
+        "costPerConversionTotal": null,
+        "costPerConversionNewCustomers": null,
+        "costPerConversionReturningCustomers": null,
+        "averageBasketSizeTotal": null,
+        "averageBasketSizeNewCustomers": null,
+        "averageBasketSizeReturningCustomers": null,
+        "averageOrderValueTotal": null,
+        "averageOrderValueNewCustomers": null,
+        "averageOrderValueReturningCustomers": null,
+        "nrOfConversionsTotal": null,
+        "nrOfConversionsNewCustomers": null,
+        "nrOfConversionsReturningCustomers": null,
+        "revenue": null,
+        "revenueNewCustomers": null,
+        "revenueReturningCustomers": null,
+        "netSalesTotal": null,
+        "netSalesNewCustomers": null,
+        "netSalesReturningCustomers": null,
+        "roas": null,
+        "codeUsages": 0,                                         // how often the applied code has been used for orders
+        "conversionRate": 0
+			},
+      "linkData": {                                              // data from link tracking integration
+        "trackingLink": null,                                    // link applied to the creator
+        "linkClicks": 0,                                         // clicks per link
+        "topCountry": null,                                    
+        "topCity": null,
+        "topDevice": null,
+        "topReferrer": null
+			}
+    }
+  ],
+  "hasMoreResults": false                                        // true if there is more than one page (see optional parameter offset)
+}

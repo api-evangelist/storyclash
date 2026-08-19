@@ -1,0 +1,76 @@
+generated: '2026-08-13'
+method: searched
+source: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+docs: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+limit_count: 4
+summary: >-
+  Storyclash publishes real, unusually restrictive numeric limits in its API documentation:
+  one request per hour per campaign result page on the Campaign Data endpoint, a temporary
+  one-request-per-10-seconds setup allowance, a hard 250,000-post result ceiling, and 200
+  creator imports per 24 hours. No rate-limit response headers are documented and none were
+  observed on a live unauthenticated call, so a client has no runtime signal and must track
+  its own budget.
+limits:
+  - name: campaign-data-hourly
+    scope: per-campaign per-result-page
+    window: 1 hour
+    limit: 1
+    burst: null
+    applies_to: GET /external-api/campaign/{campaign_id}
+    quote: >-
+      "1 request per hour (for each result page in a given campaign)" — "if you are monitoring
+      10 campaigns, you can request all results for each of the 10 campaigns once per hour."
+  - name: campaign-data-setup
+    scope: per-token
+    window: 10 seconds
+    limit: 1
+    burst: null
+    applies_to: GET /external-api/campaign/{campaign_id}
+    temporary: true
+    quote: >-
+      "for the setup of the API, the rate limit is set to one request every 10 seconds. This
+      is only for testing purposes and will be increased once the setup is complete."
+    note: >-
+      Documented as an onboarding-only allowance that is later tightened to the hourly limit —
+      the reverse of the usual sandbox-to-production direction.
+  - name: campaign-post-result-ceiling
+    scope: per-campaign
+    window: null
+    limit: 250000
+    unit: posts
+    applies_to: GET /external-api/campaign/{campaign_id}
+    error_message: Maximum results reached
+    quote: 'Post Result maximum of 250K Posts (Error Message: "Maximum results reached")'
+    note: A result-set ceiling rather than a request-rate limit; recorded here because the docs group it with the rate limit.
+  - name: creator-import-daily
+    scope: per-token
+    window: 24 hours
+    limit: 200
+    burst: null
+    applies_to: POST /external-api/import/creator
+    error_message: Rate Limit reached
+    quote: '"200 calls per 24h"; error table: "rate limit of 200 imports in 24h exceeded" -> "Rate Limit reached"'
+response_headers:
+  documented: false
+  observed: []
+  probe:
+    url: https://app.storyclash.com/external-api/campaigns
+    date: '2026-08-13'
+    status: 200
+    headers_present: [server, content-type, vary, cache-control, date, x-content-type-options, x-frame-options, strict-transport-security]
+    note: >-
+      No X-RateLimit-*, RateLimit-*, or Retry-After header was returned on an unauthenticated
+      request. Documentation does not name any either.
+exhaustion:
+  status_code: null
+  note: >-
+    The documentation names the error MESSAGE returned on exhaustion ("Maximum results
+    reached", "Rate Limit reached") but never the HTTP status. The observed auth-failure
+    response returns 200 with a JSON error body, so an exhaustion response very likely does
+    the same — clients must parse the body, not the status.
+adjustability:
+  documented: true
+  detail: >-
+    The public API integration page states the hourly limit is "adjustable for enterprise";
+    the documentation describes rate limiting as configurable per token/campaign.
+    https://www.storyclash.com/integrations/api-integration

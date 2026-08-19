@@ -1,0 +1,16 @@
+{
+  "token": "your auth token",
+  "instagramName": "someHandle",	  // string not required
+  "tiktokName": "someHandle",		 	  // string not required
+  "youtubeName": "someHandle",	    // string not required
+  "facebookName": "someHandle",	    // string not required
+  "campaign": 1, 		                // campaign ID: int not required
+  "list": 1,		                	  // list ID: int not required
+  "additional_fields": [            // object[] not required
+	  {	  	   	
+			"id": 1,		                  // additional field ID: int
+			"value":  "1234"        	    // string encoded json e.g. a string is "\"test\""
+    }
+  ]
+  "webhook": "https://url.com"      // string not required
+}

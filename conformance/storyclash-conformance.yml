@@ -1,0 +1,68 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://www.storyclash.com/privacy,
+  https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01,
+  https://www.storyclash.com/imprint
+summary: >-
+  Storyclash publishes no security certification and no API standards conformance. The only
+  compliance posture it states publicly is GDPR — it is an Austrian (Linz) company operating
+  under EU data protection law, with a privacy policy referencing standard contractual clauses
+  and a data processing agreement. No SOC 2, ISO 27001, PCI DSS, HIPAA or FedRAMP claim exists
+  on any Storyclash surface; trust.storyclash.com does not resolve and /security, /trust and
+  /gdpr all return 404. On the API side, the surface conforms to no cross-cutting standard:
+  no OAuth2, no OpenID Connect, no RFC 9457 problem details, no RFC 8594 Sunset/Deprecation,
+  no RFC 9331/RateLimit headers, no OpenAPI.
+certifications: []
+standards:
+  - id: gdpr
+    conforms: true
+    evidence:
+      - >-
+        Privacy policy published at https://www.storyclash.com/privacy (HTTP 200, fetched
+        2026-08-13) references GDPR, standard contractual clauses and a data processing
+        agreement. Storyclash GmbH is registered in Linz, Austria (imprint, HTTP 200).
+    note: >-
+      A published GDPR-aligned privacy policy is a legal obligation for an EU controller, not
+      an audited certification. Recorded as a stated posture, not a verified control.
+  - id: soc2
+    conforms: false
+    evidence: ['No SOC 2 claim on any Storyclash surface; https://www.storyclash.com/security 404, https://www.storyclash.com/trust 404, trust.storyclash.com does not resolve (2026-08-13).']
+  - id: iso27001
+    conforms: false
+    evidence: ['No ISO 27001 claim found on www.storyclash.com or in the API documentation (2026-08-13).']
+  - id: oauth2
+    conforms: false
+    evidence: ['Single opaque token in a query parameter; no authorization server, no /.well-known/oauth-authorization-server (403 on api., 404 on www., 2026-08-13).']
+  - id: oidc
+    conforms: false
+    evidence: ['/.well-known/openid-configuration returns 404 on www.storyclash.com and 403 on api./app. (2026-08-13).']
+  - id: openapi
+    conforms: false
+    evidence: ['No OpenAPI/Swagger document at /openapi.json, /openapi.yaml, /swagger.json, /v1/openapi.json, /api-docs, /docs or /redoc on api., www. or app.storyclash.com (2026-08-13). Documentation is a JS-rendered Notion page.']
+  - id: asyncapi
+    conforms: false
+    evidence: ['No AsyncAPI document; the one webhook is described in prose with a field list only. See asyncapi/storyclash-webhooks.yml.']
+  - id: rfc9457
+    conforms: false
+    evidence: ['Error envelope is {"message":"<string>"}, media type application/json, not application/problem+json. Observed live 2026-08-13.']
+  - id: rfc8594
+    conforms: false
+    evidence: ['No Sunset or Deprecation header support and no deprecation policy published. See lifecycle/storyclash-lifecycle.yml.']
+  - id: rate_limit_headers
+    conforms: false
+    evidence: ['No RateLimit-* or X-RateLimit-* header returned on a live request and none documented, despite four published numeric limits. See rate-limits/storyclash-rate-limits.yml.']
+  - id: idempotency
+    conforms: false
+    evidence: ['No Idempotency-Key or equivalent on the single write endpoint. See conventions/storyclash-conventions.yml.']
+  - id: pagination
+    conforms: true
+    evidence: ['Page-number pagination documented on the Campaign Data endpoint: "page" parameter, 1,000 posts per page, hasMoreResults boolean in the response body.']
+    note: A real, documented pagination contract — proprietary rather than standards-based.
+  - id: http_status_semantics
+    conforms: false
+    evidence: ['An invalid token returns HTTP 200 with {"message":"Invalid API Key"} rather than 401 (probed https://app.storyclash.com/external-api/campaigns, 2026-08-13).']
+compliance_pointer_emitted: false
+compliance_pointer_reason: >-
+  No published certification or formal compliance program to point at. GDPR alignment stated
+  in a privacy policy is not a compliance program in the sense the Compliance check reads.

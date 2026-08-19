@@ -1,28 +1,60 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: searched
-source: https://www.storyclash.com/integrations/api-integration
+source: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
 type: Webhooks
 docs: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+correction: >-
+  Supersedes the 2026-07-21 catalog, which listed two events named "campaign.updated" and
+  "creator.import.status". Reading the provider's actual API documentation shows only ONE
+  webhook exists — the creator-import result callback — and Storyclash publishes no event
+  NAMES at all. "campaign.updated" is not a documented Storyclash event and has been removed.
+  The real payload fields and the full status registry are now recorded from the docs.
 summary: >-
-  Storyclash documents real-time webhooks as part of its enterprise REST API.
-  Webhook callbacks deliver instant notifications when campaigns update and report
-  the result of bulk creator-import operations, so consumers do not have to poll or
-  wait for batch exports. No published AsyncAPI document exists; this catalog captures
-  the webhook surface as described in the provider's API documentation.
+  Storyclash's only documented event surface is a per-request result callback on the creator
+  import endpoint. There is no subscription model, no event catalog, no signing scheme and no
+  retry policy: the consumer passes a URL as the "webhook" parameter of a POST
+  /external-api/import/creator call, and Storyclash POSTs the outcome to that URL when the
+  import finishes. Campaign data is pull-only — the Campaign Data endpoint is polled, subject
+  to a one-request-per-hour-per-campaign limit. No AsyncAPI document is published.
+asyncapi_published: false
 transport: http
-delivery: outbound HTTP POST callback to a consumer-registered URL
+delivery: outbound HTTP POST callback to a URL supplied per-request
+subscription_model: per-request (no registration, no management endpoint)
 webhooks:
-- name: campaign.updated
-  description: >-
-    Fired when a campaign's data changes, signaling that refreshed KPIs, creator
-    profiles, content performance, or revenue attribution are available to pull.
-  category: campaign
-- name: creator.import.status
-  description: >-
-    Callback reporting the outcome of a bulk creator-import operation, indicating
-    exactly what happened for each creator processed (imported, skipped, or failed).
-  category: creator-import
-notes: >-
-  Event names above are descriptive of the documented behaviors (campaign update
-  notifications and creator-import status callbacks); the provider does not publish a
-  formal event-type registry. No fabricated payload schemas are included.
+  - name: creator-import-result
+    documented_name: null
+    trigger: >-
+      Fired after a POST /external-api/import/creator request completes, once per requested
+      creator and platform.
+    registered_via:
+      parameter: webhook
+      type: string
+      required: false
+      in: request body
+      quote: >-
+        "webhook (string) - This parameter provides the option to receive feedback for each
+        requested creator and their platforms. After the creator import is finished the result
+        will be sent to the given URL."
+    payload_fields:
+      - {name: packageId, type: integer}
+      - {name: entryId, type: integer}
+      - {name: status, type: integer, note: See errors/storyclash-error-codes.yml import_status_codes (101, 102, 300-310, 401).}
+      - {name: statusName, type: string, note: 'FOUND_EXISTING | CREATED_NEW | ERROR | PRIVATE | AGE_RESTRICTED | COUNTRY_RESTRICTED | NOT_FOUND | NO_CONTENT | INVALID_HANDLE | NO_RECENT_CONTENT | TOO_SMALL_FANBASE | BLACKLISTED | EMBED_DISABLED | NEEDS_REVIEW'}
+      - {name: feedId, type: integer}
+      - {name: requestData, type: array, note: Echoes the information sent in the original API request.}
+    note: >-
+      Field list is published verbatim by the provider; no JSON Schema or example payload is
+      given, and field types beyond the parenthesised hints above are not specified.
+not_documented:
+  signing: No signature header, shared secret or verification scheme is documented.
+  retries: No retry, backoff or dead-letter behaviour is documented.
+  ordering: No ordering or de-duplication guarantee is documented.
+  event_registry: No named event types; no versioning of the payload.
+  campaign_events: >-
+    Despite the marketing page describing "real-time" campaign notifications, the API
+    documentation defines no campaign event and no campaign webhook. Campaign KPIs are
+    retrieved by polling GET /external-api/campaign/{campaign_id}.
+cross_links:
+  errors: errors/storyclash-error-codes.yml
+  rate_limits: rate-limits/storyclash-rate-limits.yml
+  conventions: conventions/storyclash-conventions.yml

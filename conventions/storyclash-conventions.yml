@@ -1,42 +1,142 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: searched
-source: https://www.storyclash.com/integrations/api-integration
+source: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
 docs: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+also: https://www.storyclash.com/integrations/api-integration
 summary: >-
-  Cross-cutting request/response semantics for the Storyclash enterprise REST API,
-  captured from the public API integration page and Notion API documentation. No
-  OpenAPI is published, so these conventions are documented behaviors rather than
-  spec-derived.
+  Cross-cutting request/response semantics for the Storyclash external API, read from the
+  provider's own API documentation and confirmed against a live unauthenticated call. No
+  OpenAPI is published, so these are documented and observed behaviours rather than
+  spec-derived. Supersedes the 2026-07-21 profile, which recorded header-based auth and no
+  pagination; both are corrected below.
+base_url:
+  documented: https://app.storyclash.com/external-api
+  note: >-
+    Every endpoint in the provider's documentation is rooted at
+    https://app.storyclash.com/external-api/. Verified 2026-08-13: GET
+    https://app.storyclash.com/external-api/campaigns returns HTTP 200 with a Storyclash JSON
+    body. The host api.storyclash.com, previously carried as this API's baseURL, is an AWS API
+    Gateway (CNAME d-kznsfkvpob.execute-api.eu-north-1.amazonaws.com) that answers every
+    probed path with 403 {"message":"Missing Authentication Token"} and is not named anywhere
+    in the documentation; it is recorded here as an undocumented secondary host.
+  secondary_host: https://api.storyclash.com
+operations:
+  count: 3
+  quote: The Storyclash API currently offers 3 endpoints
+  list:
+    - method: GET
+      path: /external-api/campaign/{campaign_id}
+      name: Campaign Data
+      note: All performance and posting data for one campaign — campaign, posts and creators.
+    - method: GET
+      path: /external-api/campaigns
+      name: All Campaigns
+      note: List of campaigns for the authenticated customer.
+    - method: POST
+      path: /external-api/import/creator
+      name: Creator Import
+      note: 'Not enabled by default — "please get in touch with your CSM if you are interested."'
 authentication:
   style: token
   transport: HTTPS
-  detail: Per-customer API token sent in a request header. See authentication/storyclash-authentication.yml
+  location: query parameter on GET, JSON body field on POST
+  parameter: token
+  detail: See authentication/storyclash-authentication.yml
 transport:
   protocol: HTTPS
-  format: JSON
-  detail: All endpoints return structured JSON responses with 50+ KPIs and metadata.
+  request_format: JSON (POST) / query string (GET)
+  response_format: JSON
+  content_type: application/json
+  detail: >-
+    Responses are plain JSON objects and arrays. No envelope, no HAL/JSON:API hypermedia, no
+    links beyond absolute app.storyclash.com URLs embedded as data fields (url, linkToPost,
+    linkToCreator, directLink).
+pagination:
+  documented: true
+  style: page-number offset
+  parameter: page
+  page_size: 1000
+  page_size_configurable: false
+  response_field: hasMoreResults
+  detail: >-
+    "page (int) - optional pagination if there are more results to fetch (default limit 1.000
+    posts). If the results exceed this the hasMoreResults value is true) and you can fetch the
+    additional data by increasing the page parameter, which adds an offset of 1.000 per page."
+  caveats:
+    - Requesting a page past the last populated page returns an error rather than an empty array.
+    - Pagination applies to the posts[] array only; creators[] is returned whole.
+    - The All Campaigns endpoint has no pagination — "No pagination exists, all campaigns are displayed".
+    - Each result page counts separately against the one-request-per-hour limit.
+filtering:
+  documented: true
+  parameters:
+    - name: from
+      type: integer (unix timestamp)
+      detail: Narrows the lower time boundary; must fall inside the campaign's own timeframe.
+    - name: to
+      type: integer (unix timestamp)
+      detail: Narrows the upper time boundary; may be set independently of "from".
+  detail: >-
+    "They must be specified as unix timestamps (e.g. 1672527600) and must fall within the
+    timeframe of the chosen campaign. It is not possible to extend beyond the period set in
+    the user interface."
+field_expansion:
+  documented: false
+  detail: No sparse-fieldset, field-selection or expansion parameter is documented; responses are fixed-shape.
+metadata:
+  documented: true
+  detail: >-
+    User-defined metadata is carried as additionalFields[] on a creator ({id, name,
+    description, value}) and as tags[] on a post. Values in additionalFields are
+    string-encoded JSON on write.
+timestamps:
+  format: unix epoch seconds
+  timezone: UTC
+  quote: The timestamps provided are in UTC format.
+  fields: [from, to, date]
+request_id:
+  documented: false
+  detail: >-
+    No request-id or trace header is documented and none was returned on a live call, so
+    failures cannot be correlated with provider-side logs.
+versioning:
+  documented: false
+  scheme: none
+  detail: >-
+    No version segment in the path, no version header, no media-type versioning. The path is
+    /external-api/ with no version marker. See lifecycle/storyclash-lifecycle.yml.
+idempotency:
+  supported: false
+  documented: false
+  detail: >-
+    No Idempotency-Key header, no client-supplied request identifier, and no de-duplication
+    contract is documented for POST /external-api/import/creator. A retried import is
+    protected only by the server-side FOUND_EXISTING (101) status, which is an outcome, not an
+    idempotency guarantee. No Idempotency pointer is emitted in apis.yml because the provider
+    does not support it.
+error_handling:
+  envelope: '{"message": "<string>"}'
+  rfc9457: false
+  status_semantics: >-
+    Observed 2026-08-13: an invalid token returns HTTP 200 with
+    {"message":"Invalid API Key"}. Clients must inspect the body rather than the status code.
+  detail: See errors/storyclash-error-codes.yml for both published registries.
 rate_limiting:
   documented: true
-  default: 1 request/hour per campaign
-  adjustable: true
-  detail: >-
-    Configurable/intelligent rate limiting; default of 1 request/hour per campaign is
-    adjustable for enterprise plans. Bulk creator import supports hundreds of creators
-    at once with rate-limit-aware processing. Capacity of 250,000+ posts per customer.
+  headers: none
+  summary: >-
+    1 request/hour per campaign per result page; 1 request/10s during setup only; 250,000-post
+    result ceiling; 200 creator imports per 24h.
+  detail: See rate-limits/storyclash-rate-limits.yml
 webhooks:
   supported: true
-  detail: Real-time outbound webhook callbacks for campaign updates and creator-import status. See asyncapi/storyclash-webhooks.yml
-idempotency:
-  documented: false
-  detail: No idempotency-key contract is documented by the provider.
-pagination:
-  documented: false
-  detail: No explicit pagination scheme is documented on the public surface.
-error_handling:
   detail: >-
-    Documentation states endpoints return structured JSON with comprehensive error
-    handling; no formal error-code registry is published.
+    One per-request callback on creator import only; campaign data is pull-only. See
+    asyncapi/storyclash-webhooks.yml
 cross_links:
   authentication: authentication/storyclash-authentication.yml
   webhooks: asyncapi/storyclash-webhooks.yml
   lifecycle: lifecycle/storyclash-lifecycle.yml
+  errors: errors/storyclash-error-codes.yml
+  rate_limits: rate-limits/storyclash-rate-limits.yml
+  data_model: data-model/storyclash-data-model.yml

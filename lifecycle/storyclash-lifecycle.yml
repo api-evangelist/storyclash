@@ -1,21 +1,61 @@
-generated: '2026-07-21'
+generated: '2026-08-13'
 method: searched
-source: https://status.storyclash.com/
+source: >-
+  https://status.storyclash.com/,
+  https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
 summary: >-
-  Operational lifecycle signals for Storyclash captured from public surfaces. The
-  provider runs a hosted Uptime.com status page. No public versioning policy,
-  deprecation policy, RFC 8594 Sunset/Deprecation header support, or SLA document was
-  found on the public developer surface.
+  Storyclash runs a hosted Uptime.com status page (HTTP 200, 2026-08-13) and that is the whole
+  of its published operational lifecycle. There is no API versioning scheme, no deprecation
+  policy, no Sunset/Deprecation header support, no SLA and no changelog or release notes
+  anywhere on the public surface. The API path is /external-api/ with no version segment, so a
+  breaking change has nowhere to land except on live consumers.
 versioning:
-  scheme: unknown
-  detail: No public API versioning policy documented.
+  scheme: none
+  detail: >-
+    No version segment in the path (/external-api/campaign/{campaign_id}), no version header,
+    no media-type versioning, and no versioning policy document. Confirmed against the
+    provider's own API documentation, which lists three unversioned endpoints.
+  evidence: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
 deprecation:
   policy_url: null
   sunset_header: false
-  detail: No deprecation policy or Sunset/Deprecation header support documented.
+  deprecation_header: false
+  rfc8594: false
+  detail: >-
+    No deprecation policy, no notice period, no Sunset or Deprecation header support
+    documented or observed on a live response.
+changelog:
+  url: null
+  detail: >-
+    No changelog, release notes or product-updates page found. Probed 2026-08-13:
+    /changelog 404, /product-updates 404, /whats-new 404, /release-notes 404, /updates 404 on
+    www.storyclash.com. No ChangeLog pointer is emitted.
 sla:
   url: null
   uptime_target: null
+  detail: >-
+    No SLA or uptime commitment published. Rate limits are described as "adjustable for
+    enterprise", implying terms are negotiated per contract rather than published.
 status_page: https://status.storyclash.com/
 status_page_provider: Uptime.com
+status_page_probe:
+  url: https://status.storyclash.com/
+  status: 200
+  date: '2026-08-13'
+  dns: CNAME cname.uptime.com
+support:
+  channel: https://help.storyclash.com/
+  provider: Intercom
+  note: Hosted Intercom help center; no developer-specific support channel or forum.
 deprecated_operations: []
+corporate:
+  event: acquisition
+  detail: >-
+    Storyclash was acquired by Kolsquare (a team.blue brand) and now trades as "Storyclash by
+    Kolsquare". The pricing page carries a banner stating "our solutions are evolving", which
+    is the closest thing to a forward-looking lifecycle signal the company publishes. The API
+    surface itself carries no migration notice.
+  sources:
+    - https://www.storyclash.com/pricing
+    - https://press.team.blue/259730-team-blue-brand-kolsquare-acquires-leading-influencer-software-storyclash/
+    - https://www.kolsquare.com/en/blog/kolsquare-welcomes-storyclash-building-europes-influencer-marketing-powerhouse

@@ -1,0 +1,90 @@
+generated: '2026-08-13'
+method: derived
+status: candidate
+source: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+summary: >-
+  Storyclash ships no MCP server. No hosted endpoint, no stdio package, no server card, and no
+  MCP mention on any Storyclash surface. The tools below are a CANDIDATE mapping derived by
+  API Evangelist from the three documented REST endpoints; they do not exist and no MCPServer
+  pointer is emitted in apis.yml. Recorded so a later run can tell "we looked and there is
+  nothing" apart from "we did not look".
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: api-key
+  verified: probed
+  probe:
+    date: '2026-08-13'
+    method: 'POST {"jsonrpc":"2.0","id":1,"method":"tools/list"} with Accept: application/json, text/event-stream'
+    results:
+      - {url: 'https://api.storyclash.com/mcp', status: 403, body: '{"message":"Missing Authentication Token"}'}
+      - {url: 'https://mcp.storyclash.com/mcp', status: 0, note: DNS does not resolve}
+      - {url: 'https://api.storyclash.com/', status: 403, body: '{"message":"Missing Authentication Token"}'}
+  note: >-
+    api.storyclash.com is an AWS API Gateway that returns the same 403 for every path, so its
+    403 on /mcp is not evidence of a gated MCP server — it is the gateway's catch-all.
+parent_company_note:
+  detail: >-
+    Storyclash was acquired by Kolsquare (a team.blue brand) and is marketed as "Storyclash by
+    Kolsquare". Kolsquare publishes its own MCP server for influencer marketing at
+    https://www.kolsquare.com/en-gb/products/mcp (mcp.kolsquare.com/mcp answered HTTP 401 on
+    2026-08-13, i.e. present and auth-gated). That server is a KOLSQUARE product connected to
+    the Kolsquare creator database — it is not a Storyclash agent surface, it does not front
+    the Storyclash /external-api endpoints, and it is deliberately NOT counted here. It is
+    recorded only as a lead: if the two platforms converge, the Storyclash entry should be
+    re-probed.
+  urls:
+    - https://www.kolsquare.com/en-gb/products/mcp
+    - https://press.team.blue/259730-team-blue-brand-kolsquare-acquires-leading-influencer-software-storyclash/
+candidate_tools:
+  note: >-
+    Derived from the documented REST surface. Names and schemas are API Evangelist's proposal,
+    not Storyclash's — nothing below is callable today.
+  tools:
+    - name: list_campaigns
+      description: List the campaigns available to the authenticated customer.
+      rest: GET /external-api/campaigns
+      inputs: []
+      confidence: high
+    - name: get_campaign_data
+      description: >-
+        Retrieve all performance and posting data for one campaign — campaign header, posts
+        with metrics and mentions, and creators with attribution data.
+      rest: GET /external-api/campaign/{campaign_id}
+      inputs:
+        - {name: campaign_id, type: integer, required: true}
+        - {name: page, type: integer, required: false, note: 1,000 posts per page}
+        - {name: from, type: integer, required: false, note: unix timestamp, inside the campaign window}
+        - {name: to, type: integer, required: false, note: unix timestamp, inside the campaign window}
+      confidence: high
+      caution: >-
+        Rate limited to one call per hour per campaign per page — unusable as an interactive
+        agent tool without caching.
+    - name: import_creator
+      description: Import a creator by platform handle into a campaign or list.
+      rest: POST /external-api/import/creator
+      inputs:
+        - {name: instagramName, type: string, required: false}
+        - {name: tiktokName, type: string, required: false}
+        - {name: youtubeName, type: string, required: false}
+        - {name: facebookName, type: string, required: false}
+        - {name: campaign, type: integer, required: false}
+        - {name: list, type: integer, required: false}
+        - {name: additional_fields, type: array, required: false}
+        - {name: webhook, type: string, required: false}
+      confidence: high
+      write_operation: true
+      caution: >-
+        Not enabled by default; 200 calls per 24h; results arrive asynchronously on the
+        webhook, so a tool call cannot return the outcome synchronously.
+agent_readiness_notes:
+  - Auth token travels in the query string — unsuitable for an agent that logs URLs.
+  - An invalid token returns HTTP 200, so an agent must parse the body to detect failure.
+  - The one-request-per-hour campaign limit makes conversational polling impossible.
+cross_links:
+  authentication: authentication/storyclash-authentication.yml
+  rate_limits: rate-limits/storyclash-rate-limits.yml
+  conventions: conventions/storyclash-conventions.yml
+  data_model: data-model/storyclash-data-model.yml

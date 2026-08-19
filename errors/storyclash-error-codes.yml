@@ -1,0 +1,178 @@
+generated: '2026-08-13'
+method: searched
+source: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+docs: https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+format: proprietary
+summary: >-
+  Storyclash publishes two distinct error registries in its API documentation. The first is a
+  request-validation table for the creator-import endpoint, mapping a cause to the exact
+  message string returned. The second is a numeric STATUS registry (101, 102, 300-310, 401)
+  describing the per-creator, per-platform outcome of an import — delivered in the webhook
+  callback, not in the HTTP response. Neither is RFC 9457; the envelope is a bare JSON object
+  with a single "message" string, and the observed HTTP status on an auth failure is 200,
+  so error detection requires body inspection.
+envelope:
+  shape: '{"message": "<string>"}'
+  media_type: application/json
+  problem_json: false
+  rfc9457: false
+  observed:
+    url: https://app.storyclash.com/external-api/campaigns
+    date: '2026-08-13'
+    http_status: 200
+    body: '{"message":"Invalid API Key"}'
+  note: >-
+    Verbatim envelope observed on a live unauthenticated request. The API returns 200 with an
+    error body rather than a 4xx status.
+request_errors:
+  applies_to: POST /external-api/import/creator
+  note: Cause -> response message, published verbatim by the provider.
+  errors:
+    - message: Import initiated
+      cause: Import Started
+      class: success
+    - message: Invalid API Key
+      cause: The supplied token is not valid or the features is not active for that token
+      class: authentication
+      remediation: >-
+        Confirm the token with your Storyclash CSM and confirm the creator-import feature is
+        enabled — the docs state this endpoint "is not available by default".
+    - message: Malformed input, set at least one platform name to import
+      cause: One of instagramName, tiktokName, youtubeName, facebookName needs to be set
+      class: validation
+    - message: Malformed input, campaign id needs to of type int
+      cause: campaign must be a integer
+      class: validation
+    - message: Campaign not found
+      cause: Campaign with the supplied id was not found
+      class: not_found
+    - message: Malformed input, campaign needs to be of type campaign report
+      cause: Campaign needs to be of the type Campaign Report, Market Reports are not allowed
+      class: validation
+      note: Campaign "type" 1 is a campaign and 2 is a market report; only type 1 accepts imports.
+    - message: Malformed input, list id needs to of type int
+      cause: list must be a integer
+      class: validation
+    - message: Malformed input, additional field id needs to be set and type of int
+      cause: additional_fields->id must be a integer
+      class: validation
+    - message: Malformed input, additional field value needs to be set and type of string
+      cause: additional_fields->value must be a string
+      class: validation
+    - message: Malformed input, additional field value must be a JSON string
+      cause: additional_fields->value must be a valid JSON
+      class: validation
+      note: Values are string-encoded JSON, e.g. a string is "\"test\"".
+    - message: Malformed input, additional field id not valid
+      cause: additional_fields->id needs to exist
+      class: validation
+    - message: Malformed input, error in additional field
+      cause: other issue with additional_fields
+      class: validation
+    - message: Rate Limit reached
+      cause: rate limit of 200 imports in 24h exceeded
+      class: rate_limit
+      remediation: See rate-limits/storyclash-rate-limits.yml — 200 creator imports per 24 hours per token.
+    - message: Something went wrong.
+      cause: General Error
+      class: server
+import_status_codes:
+  applies_to: webhook callback for POST /external-api/import/creator
+  delivered_via: >-
+    The "status" (int) and "statusName" (string) fields of the webhook payload posted to the
+    URL supplied in the request's "webhook" parameter. See asyncapi/storyclash-webhooks.yml.
+  note: Per creator, per platform profile — one import request can yield several of these.
+  codes:
+    - code: 101
+      name: FOUND_EXISTING
+      class: success
+      meaning: The Creator is already available.
+    - code: 102
+      name: CREATED_NEW
+      class: success
+      meaning: The Creator is available now.
+    - code: 300
+      name: ERROR
+      class: error
+      meaning: >-
+        The platform profile of the creator couldn't be processed due to an error. Please
+        contact the Support Team in case more information is needed.
+    - code: 301
+      name: PRIVATE
+      class: rejected
+      meaning: >-
+        The platform profile of the creator is private and therefore not available. Only
+        public accounts are shown in Storyclash.
+    - code: 302
+      name: AGE_RESTRICTED
+      class: rejected
+      meaning: >-
+        The platform profile of the creator is age-restricted and therefore not available.
+    - code: 303
+      name: COUNTRY_RESTRICTED
+      class: rejected
+      meaning: >-
+        The platform profile of the creator is geo-restricted and therefore not available.
+        Since the content is only accessible in certain countries, the profile is not shown.
+    - code: 304
+      name: NOT_FOUND
+      class: rejected
+      meaning: >-
+        The platform profile of the creator was not found. It seems that the profile doesn't
+        exist (anymore).
+    - code: 305
+      name: NO_CONTENT
+      class: rejected
+      meaning: >-
+        The platform profile of the creator has no recent content. It seems that the profile
+        hasn't posted anything.
+    - code: 306
+      name: INVALID_HANDLE
+      class: rejected
+      meaning: >-
+        The provided handle for the platform profile of the creator is not valid and can
+        therefore not be processed.
+    - code: 307
+      name: NO_RECENT_CONTENT
+      class: rejected
+      meaning: >-
+        The platform profile of the creator hasn't posted anything in the last 12 months and
+        therefore is not available in Storyclash.
+    - code: 308
+      name: TOO_SMALL_FANBASE
+      class: rejected
+      meaning: >-
+        The platform profile of the creator does not have enough followers. Creators with less
+        than 50 followers are not available in Storyclash.
+    - code: 309
+      name: BLACKLISTED
+      class: rejected
+      meaning: The creator opted out and is not available in Storyclash.
+    - code: 310
+      name: EMBED_DISABLED
+      class: rejected
+      meaning: >-
+        The platform profile of the creator has embeds disabled. Creators with disabled embeds
+        are not available in Storyclash.
+    - code: 401
+      name: NEEDS_REVIEW
+      class: pending
+      meaning: >-
+        The platform profile of the creator needs a manual review. The team is currently
+        looking at the profile and you will get an update shortly.
+      note: >-
+        Not terminal — a human review is in progress and a later update follows. Agents must
+        not treat 401 here as an HTTP 401; it is an application status integer.
+other_documented_errors:
+  - message: Maximum results reached
+    applies_to: GET /external-api/campaign/{campaign_id}
+    cause: The campaign result set exceeds the 250,000-post ceiling.
+  - message: null
+    applies_to: GET /external-api/campaign/{campaign_id}
+    cause: >-
+      "Calling a page that has no posts will return a error." The docs state a page beyond the
+      last populated page errors, but do not publish the message or status for it.
+gaps:
+  - No HTTP status code is published for any error condition.
+  - No machine-readable error catalog, no error "code" field in the envelope — only a human-readable message string.
+  - The envelope carries no request/trace identifier, so failures cannot be correlated with the provider's logs.

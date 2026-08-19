@@ -1,0 +1,64 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://registry.npmjs.org/-/v1/search?text=storyclash,
+  https://pypi.org/pypi/storyclash/json,
+  https://rubygems.org/api/v1/gems/storyclash.json,
+  https://packagist.org/search.json?q=storyclash,
+  https://api.github.com/users/storyclash,
+  https://storyclash.notion.site/Storyclash-API-Documentation-1266dc2ddd0880a79cf9e3d34c19fa01
+package_count: 0
+summary: >-
+  Storyclash publishes no first-party client libraries. Every public registry was queried
+  unauthenticated and returned zero packages under the Storyclash name, and the provider's
+  own API documentation describes raw HTTPS GET/POST calls with a token query parameter
+  rather than any SDK. The company does operate a verified GitHub organization
+  (github.com/storyclash, "Storyclash GmbH", Austria, hello@storyclash.com, created
+  2024-01-08) but it holds zero public repositories, so there is no source-distributed
+  client either.
+packages: []
+registries_checked:
+  - registry: npm
+    endpoint: https://registry.npmjs.org/-/v1/search?text=storyclash
+    result: 0 results
+    version: null
+    published: null
+    note: checked 2026-08-13; no package published under the Storyclash name.
+  - registry: pypi
+    endpoint: https://pypi.org/pypi/storyclash/json
+    result: HTTP 404
+    version: null
+    published: null
+    note: checked 2026-08-13; no PyPI project.
+  - registry: rubygems
+    endpoint: https://rubygems.org/api/v1/gems/storyclash.json
+    result: HTTP 404
+    version: null
+    published: null
+    note: checked 2026-08-13; no gem.
+  - registry: packagist
+    endpoint: https://packagist.org/search.json?q=storyclash
+    result: 0 results
+    version: null
+    published: null
+    note: checked 2026-08-13; no Composer package.
+  - registry: github
+    endpoint: https://api.github.com/users/storyclash
+    result: organization exists, public_repos = 0
+    version: null
+    published: null
+    note: >-
+      Verified first-party organization (name "Storyclash GmbH", blog www.storyclash.com,
+      email hello@storyclash.com) with no public repositories as of 2026-08-13.
+third_party_only:
+  - name: Valorsi/storyclash-cli
+    url: https://github.com/Valorsi/storyclash-cli
+    official: false
+    note: >-
+      Third-party repository surfaced by GitHub code search; not published by Storyclash GmbH
+      and not referenced from Storyclash documentation. Recorded so a later run does not
+      mistake it for a first-party CLI.
+notes: >-
+  No SDKs pointer is emitted in apis.yml because there is no first-party client library to
+  point at. Absence here is the finding: an enterprise REST API documented only as bare URLs
+  with a token query parameter, and no maintained client in any language.

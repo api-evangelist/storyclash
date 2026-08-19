@@ -1,0 +1,11 @@
+[{
+  "customer": 1,                                               // id of the authenticated customer
+  "id": 1234,                                                  // id of the current campaign
+  "name": "Campaign Name",                                     // campaign name
+  "url": "<https://app.storyclash.com/campaigns/detail/1234>", // campaign url in the tool
+  "from": 1649023200,                                          // campaign start time
+  "to": 1649282399,                                            // campaign end time
+  "folderName": "Text",                                        // name of the folder, null if it's not in a direcatory
+  "folderId": 123,                                             // id of the folder, null if it's not in a direcotry
+  "type": 1                                                    // type of the campaign, 1 - campaign, 2 - market report
+}]
