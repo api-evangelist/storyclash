@@ -57,6 +57,16 @@ tags:
 - Campaign Management
 - Business Intelligence
 - REST API
+- Webhook
+tags_raw:
+- Company
+- Influencer Marketing
+- Creator Economy
+- Social Media Analytics
+- Marketing Analytics
+- Campaign Management
+- Business Intelligence
+- REST API
 - Webhooks
 apis:
 - name: Storyclash API
@@ -83,6 +93,10 @@ apis:
     {"message":"Missing Authentication Token"} and is named in no documentation.
   x-secondary-host: https://api.storyclash.com
   tags:
+  - Influencer Marketing
+  - Analytics
+  - Webhook
+  tags_raw:
   - Influencer Marketing
   - Analytics
   - Webhooks
