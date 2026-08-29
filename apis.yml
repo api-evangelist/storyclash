@@ -17,6 +17,17 @@ description: >-
   outcome of a bulk creator import. The company, headquartered in Linz, Austria,
   was surfaced as a portfolio company of Speedinvest and has since been acquired
   by Kolsquare, a team.blue brand, and now trades as "Storyclash by Kolsquare".
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: contact-sales
   onboarding: sales-gate
