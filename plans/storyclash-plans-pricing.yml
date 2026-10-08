@@ -70,3 +70,28 @@ free_tier:
 signup:
   self_serve: false
   detail: The pricing page's only conversion path is "Book a 1:1 demo now".
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - hybrid
+  units: []
+  plans:
+  - name: STARTER
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods: []
+  - name: GROWTH
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods: []
+  - name: SCALE
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods: []
